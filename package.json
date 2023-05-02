@@ -1,0 +1,7 @@
+{
+  "type": "module",
+  "dependencies": {
+    "@vanillaes/csv": "^3.0.1",
+    "jquery": "^3.6.4"
+  }
+}
