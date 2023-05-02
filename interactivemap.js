@@ -1,6 +1,6 @@
 var broadbandData;
 async function getBroadbandData(searchCode){
-  const response = await fetch("/broadbandNow.json")
+  const response = await fetch("./broadbandNow.json")
   const jsonData = await response.json();
  // console.log(searchCode)
   for (let i = 0; i < jsonData.length; i++) {
