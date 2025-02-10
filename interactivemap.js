@@ -1,5 +1,13 @@
 async function loadMap() {
    try {
+        // Initialize Leaflet map
+const map = L.map('map').setView([40.7128, -74.0060], 10); // Default to NYC
+
+// Load Tile Layer
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+
         // Load Zip Code Boundaries GeoJSON
         const zipResponse = await fetch("nyc_zipcodes.geojson");
         const zipData = await zipResponse.json();
@@ -25,24 +33,17 @@ async function loadMap() {
 
  // console.log(searchCode)
  
-  // Initialize Leaflet map
-const map = L.map('map').setView([40.7128, -74.0060], 10); // Default to NYC
-
-// Load Tile Layer
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; OpenStreetMap contributors'
-}).addTo(map);
 
 // Load GeoJSON (Zip Code Boundaries)
-fetch("nyczipcodes.geojson")
-  .then(response => response.json())
-  .then(data => {
-    L.geoJson(data, {
-      style: styleFeature, // Apply color based on broadband speed
-      onEachFeature: onEachFeature // Enable popups on click
-    }).addTo(map);
-  });
-}
+
+  L.geoJson(zipData, {
+            style: styleFeature,
+            onEachFeature: onEachFeature
+        }).addTo(map);
+
+    } catch (error) {
+        console.error("Error loading map data:", error);
+    }
 }
 function getColor(speed) {
   return speed > 100 ? '#19FF00' :  // Green (Well-served)
