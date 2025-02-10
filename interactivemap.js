@@ -32,7 +32,7 @@ fetch("zipcodes.geojson")
 function getColor(speed) {
   return speed > 100 ? '#19FF00' :  // Green (Well-served)
          speed > 25  ? '#FFF900' :  // Yellow (Underserved)
-         speed < 25  ? '#EFFF00';   // Red (Not served)
+          '#EFFF00';   // Red (Not served)
 }
 
 function styleFeature(feature) {
@@ -58,7 +58,7 @@ function onEachFeature(feature, layer) {
     }
   });
 }
-
+/*
 window.onload = async function getBounds(){
   
 import("/node_modules/@vanillaes/csv/index.js")
