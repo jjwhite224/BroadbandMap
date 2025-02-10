@@ -9,7 +9,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
         // Load Zip Code Boundaries GeoJSON
-        const zipResponse = await fetch("nyc_zipcodes.geojson");
+        const zipResponse = await fetch("nyczipcodes.geojson");
         const zipData = await zipResponse.json();
 
         // Load Broadband Data
