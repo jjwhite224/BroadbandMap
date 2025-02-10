@@ -19,7 +19,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 // Load GeoJSON (Zip Code Boundaries)
-fetch("zipcodes.geojson")
+fetch("nyczipcodes.geojson")
   .then(response => response.json())
   .then(data => {
     L.geoJson(data, {
@@ -105,3 +105,5 @@ const map = L.map('map', {
 
 }
 */
+// Load map on window load
+window.onload = loadMap;
