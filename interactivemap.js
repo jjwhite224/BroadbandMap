@@ -15,12 +15,12 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         // Load Broadband Data
         const broadbandResponse = await fetch("broadbandNow.json");
         const broadbandData = await broadbandResponse.json();
-
+   console.log(broadbandData);
         // Merge broadband data into GeoJSON features
         zipData.features.forEach(feature => {
             let zip = feature.properties.postalCode // Ensure correct property
             let broadbandInfo = broadbandData.find(entry => entry.Zip == zip);
-
+ console.log("Matching ZIP:", zip, "Broadband Info:", broadbandInfo);
             if (broadbandInfo) {
                 feature.properties.AverageMbps = broadbandInfo.AverageMbps || 0;
                 feature.properties.Wired25_3_2020 = broadbandInfo.Wired25_3_2020 || "N/A";
@@ -65,7 +65,7 @@ function onEachFeature(feature, layer) {
     click: function (e) {
       let props = feature.properties;
       layer.bindPopup(`
-        <b>Zip Code:</b> ${props.Zip}<br>
+        <b>Zip Code:</b> ${props.postalCode}<br>
         <b>Avg Speed:</b> ${props.AverageMbps} Mbps<br>
         <b>Providers (25 Mbps+):</b> ${props.Wired25_3_2020}<br>
         <b>Providers (100 Mbps+):</b> ${props.Wired100_3_2020}<br>
