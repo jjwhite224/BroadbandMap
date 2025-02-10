@@ -18,7 +18,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
         // Merge broadband data into GeoJSON features
         zipData.features.forEach(feature => {
-            let zip = feature.properties.zipcode || feature.properties.ZCTA5CE10; // Ensure correct property
+            let zip = feature.properties.postalCode // Ensure correct property
             let broadbandInfo = broadbandData.find(entry => entry.Zip == zip);
 
             if (broadbandInfo) {
