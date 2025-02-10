@@ -1,16 +1,30 @@
 async function loadMap() {
-var broadbandData;
-function getBroadbandData(searchCode){
-  const response = await fetch("./broadbandNow.json")
-  const jsonData = await response.json();
+   try {
+        // Load Zip Code Boundaries GeoJSON
+        const zipResponse = await fetch("nyc_zipcodes.geojson");
+        const zipData = await zipResponse.json();
+
+        // Load Broadband Data
+        const broadbandResponse = await fetch("broadbandNow.json");
+        const broadbandData = await broadbandResponse.json();
+
+        // Merge broadband data into GeoJSON features
+        zipData.features.forEach(feature => {
+            let zip = feature.properties.zipcode || feature.properties.ZCTA5CE10; // Ensure correct property
+            let broadbandInfo = broadbandData.find(entry => entry.Zip == zip);
+
+            if (broadbandInfo) {
+                feature.properties.AverageMbps = broadbandInfo.AverageMbps || 0;
+                feature.properties.Wired25_3_2020 = broadbandInfo.Wired25_3_2020 || "N/A";
+                feature.properties.Wired100_3_2020 = broadbandInfo.Wired100_3_2020 || "N/A";
+                feature.properties["%Access to Terrestrial Broadband"] = broadbandInfo["%Access to Terrestrial Broadband"] || "N/A";
+            } else {
+                feature.properties.AverageMbps = 0; // Default if no data
+            }
+        });
+
  // console.log(searchCode)
-  for (let i = 0; i < jsonData.length; i++) {
-    if (jsonData[i].Zip == searchCode){
-      console.log(jsonData[i].AverageMbps)
-      
-      return jsonData[i];
-    }
-  }
+ 
   // Initialize Leaflet map
 const map = L.map('map').setView([40.7128, -74.0060], 10); // Default to NYC
 
