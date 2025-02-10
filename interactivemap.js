@@ -74,6 +74,23 @@ function onEachFeature(feature, layer) {
     }
   });
 }
+function searchZip() {
+    let zipInput = document.getElementById("zipInput").value.trim();
+    let foundFeature = null;
+
+    geoJsonLayer.eachLayer(layer => {
+        if (layer.feature && layer.feature.properties.postalCode.toString() === zipInput) {
+            foundFeature = layer;
+        }
+    });
+
+    if (foundFeature) {
+        map.fitBounds(foundFeature.getBounds());
+        foundFeature.openPopup();
+    } else {
+        alert("ZIP Code not found.");
+    }
+}
 /*
 window.onload = async function getBounds(){
   
