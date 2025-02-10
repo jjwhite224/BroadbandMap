@@ -1,5 +1,6 @@
+async function loadMap() {
 var broadbandData;
-async function getBroadbandData(searchCode){
+function getBroadbandData(searchCode){
   const response = await fetch("./broadbandNow.json")
   const jsonData = await response.json();
  // console.log(searchCode)
@@ -28,7 +29,7 @@ fetch("nyczipcodes.geojson")
     }).addTo(map);
   });
 }
-
+}
 function getColor(speed) {
   return speed > 100 ? '#19FF00' :  // Green (Well-served)
          speed > 25  ? '#FFF900' :  // Yellow (Underserved)
