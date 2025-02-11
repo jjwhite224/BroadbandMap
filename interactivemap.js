@@ -82,7 +82,7 @@ function onEachFeature(feature, layer) {
 }
 function zoomToZip(zipInput) {
     let foundFeature = null; // Declare the variable outside
-   let zipInput = document.getElementById("zipInput").value.trim(); 
+   zipInput = document.getElementById("zipInput").value.trim(); 
     //let cleanedZip = zipInput.trim(); 
    //console.log(cleandZip)
     geoJsonLayer.eachLayer(layer => {
