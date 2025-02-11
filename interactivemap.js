@@ -80,7 +80,7 @@ function searchZip() {
     let zipInput = document.getElementById("zipInput").value.trim();
     let foundFeature = null;
 
-    geoJsonLayer.eachLayer(layer => {
+    map.eachLayer(layer => {
         if (layer.feature && layer.feature.properties.ZCTA5CE20.toString() === zipInput) {
             foundFeature = layer;
         }
