@@ -81,7 +81,7 @@ function searchZip() {
     let foundFeature = null;
 
     geoJsonLayer.eachLayer(layer => {
-        if (layer.feature && layer.feature.properties.postalCode.toString() === zipInput) {
+        if (layer.feature && layer.feature.properties.ZCTA5CE20.toString() === zipInput) {
             foundFeature = layer;
         }
     });
