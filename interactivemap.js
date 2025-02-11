@@ -47,7 +47,37 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     } catch (error) {
         console.error("Error loading map data:", error);
     }
+let incomeLayer = L.geoJson(geoJsonLayer, {
+    style: styleIncome,
+    onEachFeature: function (feature, layer) {
+        layer.bindPopup(`
+            <b>Zip Code:</b> ${feature.properties.zipcode}<br>
+            <b>Median Income:</b> $${feature.properties.Household_Income.toLocaleString()}
+        `);
+    }
+}).addTo(map)
+let baseMaps = {
+    "Broadband Speeds": broadbandLayer,
+    "Income Levels": incomeLayer
+};
 
+L.control.layers(baseMaps).addTo(map);
+let incomeLegend = L.control({ position: "bottomright" });
+
+incomeLegend.onAdd = function () {
+    let div = L.DomUtil.create("div", "info legend"),
+        grades = [0, 25000, 50000, 75000, 100000],
+        labels = [];
+
+    for (let i = 0; i < grades.length; i++) {
+        div.innerHTML +=
+            '<i style="background:' + getIncomeColor(grades[i] + 1) + '"></i> ' +
+            "$" + grades[i].toLocaleString() + (grades[i + 1] ? " - $" + grades[i + 1].toLocaleString() + "<br>" : "+");
+    }
+    return div;
+};
+
+incomeLegend.addTo(map);
   
 }
   
@@ -98,37 +128,7 @@ function onEachFeature(feature, layer) {
     }
   });
 }
-let incomeLayer = L.geoJson(geoJsonLayer, {
-    style: styleIncome,
-    onEachFeature: function (feature, layer) {
-        layer.bindPopup(`
-            <b>Zip Code:</b> ${feature.properties.zipcode}<br>
-            <b>Median Income:</b> $${feature.properties.Household_Income.toLocaleString()}
-        `);
-    }
-}).addTo(map)
-let baseMaps = {
-    "Broadband Speeds": broadbandLayer,
-    "Income Levels": incomeLayer
-};
 
-L.control.layers(baseMaps).addTo(map);
-let incomeLegend = L.control({ position: "bottomright" });
-
-incomeLegend.onAdd = function () {
-    let div = L.DomUtil.create("div", "info legend"),
-        grades = [0, 25000, 50000, 75000, 100000],
-        labels = [];
-
-    for (let i = 0; i < grades.length; i++) {
-        div.innerHTML +=
-            '<i style="background:' + getIncomeColor(grades[i] + 1) + '"></i> ' +
-            "$" + grades[i].toLocaleString() + (grades[i + 1] ? " - $" + grades[i + 1].toLocaleString() + "<br>" : "+");
-    }
-    return div;
-};
-
-incomeLegend.addTo(map);
 
 function zoomToZip(zipInput) {
     let foundFeature = null; // Declare the variable outside
