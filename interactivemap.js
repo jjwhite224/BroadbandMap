@@ -84,14 +84,16 @@ function zoomToZip(zipInput) {
     let foundFeature = null; // Declare the variable outside
    
     geoJsonLayer.eachLayer(layer => {
+        console.log(layer.feature.properties.ZCTA5CE20)
         if (layer.feature && layer.feature.properties.ZCTA5CE20 && 
             layer.feature.properties.ZCTA5CE20.toString() === zipInput) {
-           console.log(feature.properties.ZCTA5CE20)
+          
             foundFeature = layer;
         }
     });
 
     if (foundFeature) {
+       console.log(foundFeature.feature.properties.ZCTA5CE20)
         map.fitBounds(foundFeature.getBounds()); // Zoom to the ZIP code
         foundFeature.openPopup(); // Open the popup
     } else {
