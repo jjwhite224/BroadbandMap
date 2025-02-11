@@ -46,6 +46,24 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     } catch (error) {
         console.error("Error loading map data:", error);
     }
+
+   function zoomToZip(zipInput) {
+    let foundFeature = null; // Declare the variable outside
+   console.log(map)
+    map.eachLayer(layer => {
+        if (layer.feature && layer.feature.properties.ZCTA5CE20 && 
+            layer.feature.properties.ZCTA5CE20 === zipInput) {
+            foundFeature = layer;
+        }
+    });
+
+    if (foundFeature) {
+        map.fitBounds(foundFeature.getBounds()); // Zoom to the ZIP code
+        foundFeature.openPopup(); // Open the popup
+    } else {
+        alert("ZIP Code not found.");
+    }
+}
 }
 function getColor(speed) {
   return speed > 100 ? '#19FF00' :  // Green (Well-served)
@@ -76,23 +94,7 @@ function onEachFeature(feature, layer) {
     }
   });
 }
-function zoomToZip(zipInput) {
-    let foundFeature = null; // Declare the variable outside
-   console.log(map)
-    map.eachLayer(layer => {
-        if (layer.feature && layer.feature.properties.ZCTA5CE20 && 
-            layer.feature.properties.ZCTA5CE20 === zipInput) {
-            foundFeature = layer;
-        }
-    });
 
-    if (foundFeature) {
-        map.fitBounds(foundFeature.getBounds()); // Zoom to the ZIP code
-        foundFeature.openPopup(); // Open the popup
-    } else {
-        alert("ZIP Code not found.");
-    }
-}
 /*
 window.onload = async function getBounds(){
   
