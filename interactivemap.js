@@ -43,10 +43,6 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             style: styleFeature,
             onEachFeature: onEachFeature
         }).addTo(map);
-
-    } catch (error) {
-        console.error("Error loading map data:", error);
-    }
 let incomeLayer = L.geoJson(geoJsonLayer, {
     style: styleIncome,
     onEachFeature: function (feature, layer) {
@@ -56,12 +52,12 @@ let incomeLayer = L.geoJson(geoJsonLayer, {
         `);
     }
 }).addTo(map)
-let baseMaps = {
-    "Broadband Speeds": broadBandLayer,
-    "Income Levels": incomeLayer
-};
-
-L.control.layers(baseMaps).addTo(map);
+       let baseMaps = {}; // Empty for base layers
+        let overlayMaps = {
+            "Broadband Speeds": broadBandLayer,
+            "Income Levels": incomeLayer
+        };
+        L.control.layers(baseMaps, overlayMaps).addTo(map);
 let incomeLegend = L.control({ position: "bottomright" });
 
 incomeLegend.onAdd = function () {
@@ -78,6 +74,11 @@ incomeLegend.onAdd = function () {
 };
 
 incomeLegend.addTo(map);
+    } catch (error) {
+        console.error("Error loading map data:", error);
+    }
+
+
   
 }
   
