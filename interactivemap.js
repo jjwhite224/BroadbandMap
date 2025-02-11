@@ -82,8 +82,9 @@ function onEachFeature(feature, layer) {
 }
 function zoomToZip(zipInput) {
     let foundFeature = null; // Declare the variable outside
-   console.log(map)
+   
     map.eachLayer(layer => {
+       console.log(layer);
         if (layer.feature && layer.feature.properties.ZCTA5CE20 && 
             layer.feature.properties.ZCTA5CE20 === zipInput) {
             foundFeature = layer;
