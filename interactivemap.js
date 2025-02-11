@@ -1,3 +1,5 @@
+let map;
+let geoJsonLayer; 
 async function loadMap() {
    try {
         // Initialize Leaflet map
@@ -9,7 +11,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
         // Load Zip Code Boundaries GeoJSON
-        const zipResponse = await fetch("nyczipcodes.geojson");
+        const zipResponse = await fetch("usazipcodes.geojson");
         const zipData = await zipResponse.json();
 
         // Load Broadband Data
