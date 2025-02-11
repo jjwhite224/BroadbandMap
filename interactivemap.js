@@ -3,7 +3,7 @@ let geoJsonLayer;
 async function loadMap() {
    try {
         // Initialize Leaflet map
-const map = L.map('map').setView([40.7128, -74.0060], 10); // Default to NYC
+map = L.map('map').setView([40.7128, -74.0060], 10); // Default to NYC
 
 // Load Tile Layer
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -12,7 +12,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
         // Load Zip Code Boundaries GeoJSON
         const zipResponse = await fetch("usazipcodes.json");
-        const geoJsonLayer = await zipResponse.json();
+        geoJsonLayer = await zipResponse.json();
 
         // Load Broadband Data
         const broadbandResponse = await fetch("broadbandNow.json");
@@ -38,7 +38,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 // Load GeoJSON (Zip Code Boundaries)
 
-  L.geoJson(geoJsonLayer, {
+  geoJsonLayer = L.geoJson(geoJsonLayer, {
             style: styleFeature,
             onEachFeature: onEachFeature
         }).addTo(map);
@@ -47,7 +47,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         console.error("Error loading map data:", error);
     }
 
-   zoomToZip();
+  
 }
   
 
@@ -83,7 +83,7 @@ function onEachFeature(feature, layer) {
 function zoomToZip(zipInput) {
     let foundFeature = null; // Declare the variable outside
    
-    map.eachLayer(layer => {
+    geoJsonLayer.eachLayer(layer => {
        console.log(layer);
         if (layer.feature && layer.feature.properties.ZCTA5CE20 && 
             layer.feature.properties.ZCTA5CE20 === zipInput) {
