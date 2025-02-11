@@ -17,12 +17,12 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         // Load Broadband Data
         const broadbandResponse = await fetch("broadbandNow.json");
         const broadbandData = await broadbandResponse.json();
-   console.log(broadbandData);
+
         // Merge broadband data into GeoJSON features
         zipData.features.forEach(feature => {
             let zip = feature.properties.ZCTA5CE20 // Ensure correct property
             let broadbandInfo = broadbandData.find(entry => entry.Zip == zip);
- console.log("Matching ZIP:", zip, "Broadband Info:", broadbandInfo);
+
             if (broadbandInfo) {
                 feature.properties.AverageMbps = broadbandInfo.AverageMbps || 0;
                 feature.properties.Wired25_3_2020 = broadbandInfo.Wired25_3_2020 || "N/A";
@@ -76,19 +76,19 @@ function onEachFeature(feature, layer) {
     }
   });
 }
-function searchZip() {
-    let zipInput = document.getElementById("zipInput").value.trim();
-    let foundFeature = null;
+function zoomToZip(zipInput) {
+    let foundFeature = null; // Declare the variable outside
 
     map.eachLayer(layer => {
-        if (layer.feature && layer.feature.properties.ZCTA5CE20.toString() === zipInput) {
+        if (layer.feature && layer.feature.properties.ZCTA5CE20 && 
+            layer.feature.properties.ZCTA5CE20.toString() === zipInput) {
             foundFeature = layer;
         }
     });
 
     if (foundFeature) {
-        map.fitBounds(foundFeature.getBounds());
-        foundFeature.openPopup();
+        map.fitBounds(foundFeature.getBounds()); // Zoom to the ZIP code
+        foundFeature.openPopup(); // Open the popup
     } else {
         alert("ZIP Code not found.");
     }
