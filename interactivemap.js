@@ -63,6 +63,15 @@ function getIncomeColor(income) {
            income > 25000  ? '#b2e2e2' :  // Very light green
                              '#edf8fb';   // Lightest color (Low income)
 }
+function styleIncome(feature) {
+    return {
+        fillColor: getIncomeColor(feature.properties.Median_Income),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        fillOpacity: 0.7
+    };
+}
 
 
 function styleFeature(feature) {
@@ -88,6 +97,38 @@ function onEachFeature(feature, layer) {
     }
   });
 }
+let incomeLayer = L.geoJson(zipData, {
+    style: styleIncome,
+    onEachFeature: function (feature, layer) {
+        layer.bindPopup(`
+            <b>Zip Code:</b> ${feature.properties.postalCode}<br>
+            <b>Median Income:</b> $${feature.properties.Median_Income.toLocaleString()}
+        `);
+    }
+}).addTo(map)
+let baseMaps = {
+    "Broadband Speeds": broadbandLayer,
+    "Income Levels": incomeLayer
+};
+
+L.control.layers(baseMaps).addTo(map);
+let incomeLegend = L.control({ position: "bottomright" });
+
+incomeLegend.onAdd = function () {
+    let div = L.DomUtil.create("div", "info legend"),
+        grades = [0, 25000, 50000, 75000, 100000],
+        labels = [];
+
+    for (let i = 0; i < grades.length; i++) {
+        div.innerHTML +=
+            '<i style="background:' + getIncomeColor(grades[i] + 1) + '"></i> ' +
+            "$" + grades[i].toLocaleString() + (grades[i + 1] ? " - $" + grades[i + 1].toLocaleString() + "<br>" : "+");
+    }
+    return div;
+};
+
+incomeLegend.addTo(map);
+
 function zoomToZip(zipInput) {
     let foundFeature = null; // Declare the variable outside
    zipInput = document.getElementById("zipInput").value.trim(); 
