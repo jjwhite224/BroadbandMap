@@ -12,7 +12,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
         // Load Zip Code Boundaries GeoJSON
         const zipResponse = await fetch("usazipcodes.json");
-        const zipData = await zipResponse.json();
+        const geoJsonLayer = await zipResponse.json();
 
         // Load Broadband Data
         const broadbandResponse = await fetch("broadbandNow.json");
@@ -78,7 +78,7 @@ function onEachFeature(feature, layer) {
 }
 function zoomToZip(zipInput) {
     let foundFeature = null; // Declare the variable outside
-   console.log(zipData.features[0].properties)
+   console.log(geoJsonLayer.features[0].properties)
     map.eachLayer(layer => {
         if (layer.feature && layer.feature.properties.ZCTA5CE20 && 
             layer.feature.properties.ZCTA5CE20.toString() === zipInput) {
