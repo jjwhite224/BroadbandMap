@@ -38,7 +38,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 // Load GeoJSON (Zip Code Boundaries)
 
-  L.geoJson(geoJsonLayer {
+  L.geoJson(geoJsonLayer, {
             style: styleFeature,
             onEachFeature: onEachFeature
         }).addTo(map);
