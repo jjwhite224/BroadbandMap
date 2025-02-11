@@ -47,7 +47,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         console.error("Error loading map data:", error);
     }
 
-   function zoomToZip();
+   zoomToZip();
 }
   
 
