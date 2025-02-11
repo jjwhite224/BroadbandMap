@@ -82,12 +82,11 @@ function onEachFeature(feature, layer) {
 }
 function zoomToZip(zipInput) {
     let foundFeature = null; // Declare the variable outside
-   
+    let cleanedZip = zipInput.trim();                                                                                                                                                                                                           
     geoJsonLayer.eachLayer(layer => {
         console.log(layer.feature.properties.ZCTA5CE20)
-        if (layer.feature && layer.feature.properties.ZCTA5CE20 && 
-            layer.feature.properties.ZCTA5CE20.toString() === zipInput) {
-          
+        if (layer.feature && layer.feature.properties.ZCTA5CE20.toString() && 
+            layer.feature.properties.ZCTA5CE20.toString() === cleanedZip) {
             foundFeature = layer;
         }
     });
