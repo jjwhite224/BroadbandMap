@@ -47,10 +47,10 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         console.error("Error loading map data:", error);
     }
 
-   function zoomToZip()
-
-  
+   function zoomToZip();
 }
+  
+
 function getColor(speed) {
   return speed > 100 ? '#19FF00' :  // Green (Well-served)
          speed > 25  ? '#FFF900' :  // Yellow (Underserved)
