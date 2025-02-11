@@ -11,7 +11,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
         // Load Zip Code Boundaries GeoJSON
-        const zipResponse = await fetch("usazipcodes.json");
+        const zipResponse = await fetch("merged_geojson_with_income.geojson");
         geoJsonLayer = await zipResponse.json();
 
         // Load Broadband Data
@@ -20,7 +20,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
         // Merge broadband data into GeoJSON features
         geoJsonLayer.features.forEach(feature => {
-            let zip = feature.properties.ZCTA5CE20 // Ensure correct property
+            let zip = feature.properties.zipcode // Ensure correct property
             let broadbandInfo = broadbandData.find(entry => entry.Zip == zip);
 
             if (broadbandInfo) {
@@ -56,6 +56,14 @@ function getColor(speed) {
          speed > 25  ? '#FFF900' :  // Yellow (Underserved)
                        '#FF0000' ;  // Red (Not served)
 }
+function getIncomeColor(income) {
+    return income > 100000 ? '#00441b' :  // Dark green (High income)
+           income > 75000  ? '#238b45' :  // Medium green
+           income > 50000  ? '#66c2a4' :  // Light green
+           income > 25000  ? '#b2e2e2' :  // Very light green
+                             '#edf8fb';   // Lightest color (Low income)
+}
+
 
 function styleFeature(feature) {
   return {
@@ -71,7 +79,7 @@ function onEachFeature(feature, layer) {
     click: function (e) {
       let props = feature.properties;
       layer.bindPopup(`
-        <b>Zip Code:</b> ${props.ZCTA5CE20}<br>
+        <b>Zip Code:</b> ${props.zipcode}<br>
         <b>Avg Speed:</b> ${props.AverageMbps} Mbps<br>
         <b>Providers (25 Mbps+):</b> ${props.Wired25_3_2020}<br>
         <b>Providers (100 Mbps+):</b> ${props.Wired100_3_2020}<br>
@@ -86,15 +94,15 @@ function zoomToZip(zipInput) {
     //let cleanedZip = zipInput.trim(); 
    //console.log(cleandZip)
     geoJsonLayer.eachLayer(layer => {
-        if (layer.feature && layer.feature.properties.ZCTA5CE20.toString() && 
-            layer.feature.properties.ZCTA5CE20.toString() === zipInput) {
+        if (layer.feature && layer.feature.properties.zipcode.toString() && 
+            layer.feature.properties.zipcode.toString() === zipInput) {
             foundFeature = layer;
            
         }
     });
 
     if (foundFeature) {
-       console.log(foundFeature.feature.properties.ZCTA5CE20)
+       console.log(foundFeature.feature.properties.zipcode)
         map.fitBounds(foundFeature.getBounds()); // Zoom to the ZIP code
         foundFeature.openPopup(); // Open the popup
     } else {
