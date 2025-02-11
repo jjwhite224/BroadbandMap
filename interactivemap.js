@@ -54,7 +54,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 function getColor(speed) {
   return speed > 100 ? '#19FF00' :  // Green (Well-served)
          speed > 25  ? '#FFF900' :  // Yellow (Underserved)
-         speed < 25  ? '#EFFF00' :  // Red (Not served)
+                       '#FF0000' :  // Red (Not served)
 }
 
 function styleFeature(feature) {
