@@ -57,7 +57,7 @@ let incomeLayer = L.geoJson(geoJsonLayer, {
     }
 }).addTo(map)
 let baseMaps = {
-    "Broadband Speeds": broadbandLayer,
+    "Broadband Speeds": broadBandLayer,
     "Income Levels": incomeLayer
 };
 
