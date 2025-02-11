@@ -38,7 +38,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 // Load GeoJSON (Zip Code Boundaries)
 
-  geoJsonLayer = L.geoJson(geoJsonLayer, {
+  let broadBandLayer = L.geoJson(geoJsonLayer, {
             style: styleFeature,
             onEachFeature: onEachFeature
         }).addTo(map);
@@ -97,7 +97,7 @@ function onEachFeature(feature, layer) {
     }
   });
 }
-let incomeLayer = L.geoJson(zipData, {
+let incomeLayer = L.geoJson(geoJsonLayer, {
     style: styleIncome,
     onEachFeature: function (feature, layer) {
         layer.bindPopup(`
