@@ -13,6 +13,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         // Load Zip Code Boundaries GeoJSON
         const zipResponse = await fetch("merged_geojson_with_income.geojson");
         geoJsonLayer = await zipResponse.json();
+      console.log(geoJsonLayer)
 
         // Load Broadband Data
         const broadbandResponse = await fetch("broadbandNow.json");
