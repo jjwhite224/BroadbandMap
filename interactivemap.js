@@ -86,7 +86,7 @@ function zoomToZip(zipInput) {
     geoJsonLayer.eachLayer(layer => {
        console.log(layer);
         if (layer.feature && layer.feature.properties.ZCTA5CE20 && 
-            layer.feature.properties.ZCTA5CE20 === zipInput) {
+            layer.feature.properties.ZCTA5CE20.toString() === zipInput) {
             foundFeature = layer;
         }
     });
