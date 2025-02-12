@@ -17,6 +17,25 @@ async function loadMap() {
         geoJsonLayer = await response.json();
         console.log(geoJsonLayer);
 
+         const broadbandResponse = await fetch("broadbandNow.json");
+        const broadbandData = await broadbandResponse.json();
+
+        geoJsonLayer.features.forEach(feature => {
+            let zip = feature.properties.zipcode // Ensure correct property
+            let broadbandInfo = broadbandData.find(entry => entry.Zip == zip);
+
+            if (broadbandInfo) {
+                feature.properties.AverageMbps = broadbandInfo.AverageMbps || 0;
+                feature.properties.Wired25_3_2020 = broadbandInfo.Wired25_3_2020 || "N/A";
+                feature.properties.Wired100_3_2020 = broadbandInfo.Wired100_3_2020 || "N/A";
+                feature.properties["%Access to Terrestrial Broadband"] = broadbandInfo["%Access to Terrestrial Broadband"] || "N/A";
+            } else {
+                feature.properties.AverageMbps = 0; // Default if no data
+            }
+        });
+
+
+
         // Define color scale for dominant race
         function getRaceColor(race) {
             const raceColors = {
