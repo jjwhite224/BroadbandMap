@@ -48,7 +48,7 @@ let incomeLayer = L.geoJson(geoJsonLayer, {
     onEachFeature: function (feature, layer) {
         layer.bindPopup(`
             <b>Zip Code:</b> ${feature.properties.zipcode}<br>
-            <b>Median Income:</b> $${feature.properties["Household Income"]/2.51}
+            <b>Median Income:</b> $${feature.properties["Household Income"]}
         `);
     }
 }).addTo(map)
