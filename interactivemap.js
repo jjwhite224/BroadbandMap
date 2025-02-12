@@ -48,7 +48,7 @@ let incomeLayer = L.geoJson(geoJsonLayer, {
     onEachFeature: function (feature, layer) {
         layer.bindPopup(`
             <b>Zip Code:</b> ${feature.properties.zipcode}<br>
-            <b>Median Income:</b> $${feature.properties["Household Income"]}
+            <b>Median Income:</b> $${feature.properties["Per Capita Income"]}
         `);
     }
 }).addTo(map)
@@ -97,7 +97,7 @@ function getIncomeColor(income) {
 }
 function styleIncome(feature) {
     return {
-        fillColor: getIncomeColor(feature.properties["Household Income"]),
+        fillColor: getIncomeColor(feature.properties["Per Capita Income"]),
         weight: 2,
         opacity: 1,
         color: 'white',
